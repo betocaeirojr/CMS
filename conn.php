@@ -3,7 +3,7 @@
 	// Define the SQL Constants for DB Conection
 	define('SQL_HOST','localhost');
 	define('SQL_USER','root');
-	define('SQL_PASS','root');
+	define('SQL_PASS','');
 	define('SQL_DB','cms');
 
 	$conn = mysql_connect(SQL_HOST, SQL_USER, SQL_PASS)
