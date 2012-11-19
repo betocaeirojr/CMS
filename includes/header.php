@@ -47,7 +47,7 @@
 			{
 				echo ' | <a href="compose.php">Compose</a>';
 				
-				if ($_SESSION['access_lvl'] > 1) 
+				if ($_SESSION['access_lvl'] >= 1) 
 				{
 					echo ' | <a href="pending.php">Review</a>';
 				}

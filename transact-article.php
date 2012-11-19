@@ -2,7 +2,7 @@
 session_start();
 require_once 'conn.php';
 require_once 'includes/http.php';
-require_once 'include/commons.php';
+require_once 'includes/commons.php';
 
 if (isset($_REQUEST['action'])) 
 {
@@ -20,9 +20,9 @@ if (isset($_REQUEST['action']))
 						"'," . $_SESSION['user_id'] . ",'" 					.
 						date("Y-m-d H:i:s", time()) . "')";
 
-				//echo "DEBUG:: <BR>";
-				//echo "DEBUG:: This insert SQL is: $sql <BR>";
-				//echo "DEBUG:: Decoded string is: " . urldecode($sql) . "...<BR>" ; 
+				echo "DEBUG:: <BR>";
+				echo "DEBUG:: This insert SQL is: $sql <BR>";
+				echo "DEBUG:: Decoded string is: " . urldecode($sql) . "...<BR>" ; 
 				 mysql_query($sql, $conn)
 					or die('Could not submit article; ' . mysql_error());
 			}
@@ -78,7 +78,7 @@ if (isset($_REQUEST['action']))
 				$isPublished = mysql_query($sql, $conn)
 					or die('Could not publish article; ' . mysql_error());
 
-				if ($isPublished)
+				/*if ($isPublished)
 				{
 					// Retrieve Authors name and email
 					$authorsinfoSQL = 	"SELECT u.name, u.email, a.title " . 
@@ -108,7 +108,7 @@ if (isset($_REQUEST['action']))
 
 
 					}
-				}
+				} */
 
 			}
 			
@@ -166,7 +166,8 @@ if (isset($_REQUEST['action']))
 			redirect('viewarticle.php?article=' . $_POST['article']);
 			
 			break;
-		case 'remove':
+
+		case 'Remove':
 			if 	(isset($_GET['article'])
 				and isset($_SESSION['user_id']))
 			{
