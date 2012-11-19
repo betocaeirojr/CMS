@@ -11,4 +11,6 @@
 	
 	mysql_select_db(SQL_DB, $conn)
 		or die('Could not select database; ' . mysql_error());
+
+	date_default_timezone_set('America/Sao_Paulo');
 ?>

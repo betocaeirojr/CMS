@@ -54,11 +54,10 @@
 				if ($_SESSION['access_lvl'] > 2) 
 				{
 					echo ' | <a href="admin.php">Admin</a>';
-					echo ' | <a href="cpanel.php">Control Panel</a>';
-					echo ' | <a href="transact-user.php?action=Logout">Logout</a>';
 				}
-		?>
+				echo ' | <a href="cpanel.php">Control Panel</a>';
+				echo ' | <a href="transact-user.php?action=Logout">Logout</a>';
+			}
+?>
 			</div>
-			<div id="articles">
-
-
+			<div id=\"articles\">

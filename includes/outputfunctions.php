@@ -43,8 +43,9 @@ function outputStory($article, $only_snippet=FALSE)
 		
 		if ($row = mysql_fetch_array($result)) 
 		{
+			$author = $row['author_id'];
 			echo "<h3>" . htmlspecialchars($row['title']) . "</h3>\n";
-			echo "<h5><div class=\"byline\">By: " . htmlspecialchars($row['name']) . "</div>";
+			echo "<h5><div class=\"byline\"><a href=\"aboutauthor.php?author=$author\">By: " . htmlspecialchars($row['name']) . "</a></div>";
 			echo "<div class=\"pubdate\">";
 
 			if ($row['is_published'] == 1) 
@@ -60,7 +61,7 @@ function outputStory($article, $only_snippet=FALSE)
 			if ($only_snippet) 
 			{
 				echo "<p>\n";
-				echo nl2br(htmlspecialchars(trimBody($row['body')));
+				echo nl2br(htmlspecialchars(trimBody($row['body'])));
 				echo "</p>\n";
 				echo "<h4><a href=\"viewarticle.php?article=" . $row['article_id'] . "\">Full Story...</a></h4><br>\n";
 			} else 
@@ -104,7 +105,7 @@ function showComments($article, $showLink=TRUE)
 			echo "<h4>" . mysql_num_rows($result) . " Comments";
 			if (isset($_SESSION['user_id']) and $is_published) 
 			{
-				echo " / <a href=\"comment.php?article=" . $_GET['article'] . "\">Add one</a>";
+				echo " / <a href=\"comments.php?article=" . $_GET['article'] . "\">Add one</a>";
 			}
 			echo "</h4>\n";
 		}

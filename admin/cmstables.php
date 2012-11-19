@@ -23,7 +23,7 @@ $result = mysql_query($sql)
 
 // Creating Table ARTICLES
 $sql = <<<EOS
-CREATE TABLE IF NOT EXISTS cms_articles_MyISAM (
+CREATE TABLE IF NOT EXISTS cms_articles (
 article_id int(11) NOT NULL auto_increment,
 author_id int(11) NOT NULL default '0',
 is_published tinyint(1) NOT NULL default '0',

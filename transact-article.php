@@ -2,6 +2,7 @@
 session_start();
 require_once 'conn.php';
 require_once 'includes/http.php';
+require_once 'include/commons.php';
 
 if (isset($_REQUEST['action'])) 
 {
@@ -12,14 +13,17 @@ if (isset($_REQUEST['action']))
 				and isset($_POST['body'])
 				and isset($_SESSION['user_id']))
 			{
-				$sql = 	"INSERT INTO cms_articles 					" 	.
-						"(title,body, author_id, date_submitted) " 		.
-						"VALUES ('" . $_POST['title'] 					.
-						"','" . $_POST['body'] 							.
-						"‘," . $_SESSION['user_id'] . ",'" 				.
+				$sql = 	"INSERT INTO cms_articles " 						.
+						"(title,body, author_id, date_submitted) " 			.
+						"VALUES ('" . $_POST['title']						.
+						"','" . $_POST['body'] 								.
+						"'," . $_SESSION['user_id'] . ",'" 					.
 						date("Y-m-d H:i:s", time()) . "')";
 
-				mysql_query($sql, $conn)
+				//echo "DEBUG:: <BR>";
+				//echo "DEBUG:: This insert SQL is: $sql <BR>";
+				//echo "DEBUG:: Decoded string is: " . urldecode($sql) . "...<BR>" ; 
+				 mysql_query($sql, $conn)
 					or die('Could not submit article; ' . mysql_error());
 			}
 
@@ -71,8 +75,41 @@ if (isset($_REQUEST['action']))
 						date("Y-m-d H:i:s",time()) . "' " 		.
 						"WHERE article_id=" . $_POST['article'];
 				
-				mysql_query($sql, $conn)
+				$isPublished = mysql_query($sql, $conn)
 					or die('Could not publish article; ' . mysql_error());
+
+				if ($isPublished)
+				{
+					// Retrieve Authors name and email
+					$authorsinfoSQL = 	"SELECT u.name, u.email, a.title " . 
+										"FROM cms_users u, cms_articles a " . 
+										"WHERE a.article_id=" . $_POST['article'] . " AND " . 
+										"u.user_id = a.author_id";
+
+					$ai_result = mysql_query($authorsinfoSQL, $conn)
+						or die("Could not retrive Authors info for notification...". mysql_error());
+
+					if ((mysql_num_rows($ai_result)<1) OR (mysql_num_rows($ai_result)>2))
+					{
+						// Consulta nao retornou nada ou retornou mais de 1 resultado possivel
+						redirect('index.php');
+
+					} else
+					{
+						// Retornou um valor
+						// Entao notifica o author que o artigo foi publicado
+						$mail_text = "Your article, titled: '" . $ai_result['title'] . "' has been published. Please visit our site to check it out!"
+						$mail_sent = sendmail ("root@localhost", $ai_result['email'], "Your Article has been published", $mail_text);
+
+						if (!$mail_sent)
+						{
+							// log error and mail the webmaster
+						}
+
+
+					}
+				}
+
 			}
 			
 			redirect('pending.php');

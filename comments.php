@@ -1,0 +1,25 @@
+<?php
+require_once 'conn.php';
+require_once 'includes/outputfunctions.php';
+require_once 'includes/header.php';
+
+outputStory($_GET['article']);
+
+?>
+<h1>Add a comment</h1>
+<form method="post" action="transact-article.php">
+	<p>
+		Comment:<br>
+		<textarea id="comment" name="comment" rows="10" cols="60"></textarea>
+	</p>
+	<p>
+		<input type="submit" class="submit" name="action" value="Submit Comment">
+		<input type="hidden" name="article" value="<?php echo $_GET['article']; ?>">
+	</p>
+</form>
+<?php
+
+showComments($_GET['article'], FALSE);
+
+require_once 'includes/footer.php';
+?>
