@@ -27,6 +27,7 @@
 	$password_hint = '';
 	$age = '';
 	$bio = '';
+	$notify = '';
 	
 
 	if (isset($_GET['userid'])) 
@@ -46,6 +47,7 @@
 		$accesslvl = $row['access_lvl'];
 		$age = $row['age'];
 		$bio= $row['bio'];
+		$notify=$row['notification'];
 	}
 
 	require_once 'includes/header.php';
@@ -76,6 +78,7 @@
 <p> Bio:<br>
 	<textarea class="bio" name="bio" rows="10" cols="60"><?php echo htmlspecialchars($bio); ?> </textarea>
 </p>	
+
 
 <?php
 	if (isset($_SESSION['access_lvl'])
@@ -127,6 +130,26 @@
 <p>
 	Password Hint (this hint will be email to you if somehow you manage to lost your password):<br>
 	<input type="text" id="passwd_hint" name="passwd_hint" maxlength="255">
+</p>
+
+
+<p>
+	Notify on Post Approval: <br>
+<?php 
+
+	if ($notify == 1) 
+	{
+		// Notification on post approval ON
+		echo "<input type=\"radio\" name=\"notify\" value=\"1\" checked> Yes<br>";
+		echo "<input type=\"radio\" name=\"notify\" value=\"0\"> No<br>";
+	} else 
+	{
+		// Notification on post approval OFF
+		echo "<input type=\"radio\" name=\"notify\" value=\"1\"> Yes<br>";
+		echo "<input type=\"radio\" name=\"notify\" value=\"0\" checked> No<br>";
+	}
+?>
+	
 </p>
 
 <p>

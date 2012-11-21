@@ -73,13 +73,14 @@ if (isset($_REQUEST['action']))
 				(isset($_POST['age']) and (is_numeric($_POST['age']))) and
 				isset($_POST['bio']))
 			{
-				$sql = 	"INSERT INTO cms_users (email, name, passwd, passwd_hint, age, bio) " .
+				$sql = 	"INSERT INTO cms_users (email, name, passwd, passwd_hint, age, bio, notification) " .
 						"VALUES ('" . $_POST['email'] . 
 							"','" . $_POST['name'] . 
 							"', PASSWORD('" .  $_POST['passwd'] . "'),'". 
 							$_POST['passwd_hint']. "'," . 
 							$_POST['age'] . ",'" . 
-							$_POST['bio'] .
+							$_POST['bio'] . ", " . 
+							$_POST['notify'] . 
 							"')";
 				
 				//echo "DEBUG:: $sql <BR>";
@@ -119,8 +120,8 @@ if (isset($_REQUEST['action']))
 						"', name='" . $_POST['name'] .
 						"', access_lvl=" . $_POST['accesslvl'] . " , "  .
 						"age = " . $_POST['age'] . "," . 
-						"bio = '" . $_POST['bio'] . 
-						"' " . 
+						"bio = '" . $_POST['bio'] .  "', " .
+						"notification = " . $_POST['notify'] .  
 						" WHERE user_id=" . $_POST['userid'];
 				
 				echo "DEBUG:: $sql <BR>";
@@ -176,9 +177,10 @@ if (isset($_REQUEST['action']))
 						"SET email='" . $_POST['email'] .
 						"', name='" . $_POST['name'] . "', " .
 						"age = " . $_POST['age']. "," .
-						"bio = '" . $_POST['bio']. "' " . 
-						"WHERE user_id=" . $_SESSION['user_id'];
-				
+						"bio = '" . $_POST['bio']. "', " . 
+						"notification = " . $_POST['notify'] .  
+						" WHERE user_id=" . $_SESSION['user_id'];
+				echo $sql;
 				mysql_query($sql, $conn)
 					or die('Could not update user account; ' . mysql_error());
 			}

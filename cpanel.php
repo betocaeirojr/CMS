@@ -2,7 +2,7 @@
 	require_once 'conn.php';
 	require_once 'includes/header.php';
 	
-	$sql = 	"SELECT name, email, age, bio " .
+	$sql = 	"SELECT name, email, age, bio, notification " .
 			"FROM cms_users " .
 			"WHERE user_id=" . $_SESSION['user_id'];
 	
@@ -24,6 +24,23 @@
 	<p>Bio:<br>
 		<textarea id="age" name="bio" rows="10" cols="60"><?php echo htmlspecialchars($user['bio']); ?> </textarea>
 	</p>
+	<p>
+		Notify on Post Approval: <br>
+<?php 
+		$notify = $user['notification'];
+	if ($notify == 1) 
+	{
+		// Notification on post approval ON
+		echo "<input type=\"radio\" name=\"notify\" value=\"1\" checked> Yes<br>";
+		echo "<input type=\"radio\" name=\"notify\" value=\"0\"> No<br>";
+	} else 
+	{
+		// Notification on post approval OFF
+		echo "<input type=\"radio\" name=\"notify\" value=\"1\"> Yes<br>";
+		echo "<input type=\"radio\" name=\"notify\" value=\"0\" checked> No<br>";
+	}
+?>
+</p>
 	<p>
 		<input type="submit" class="submit" name="action" value="Change my info">
 	</p>
