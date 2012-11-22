@@ -36,7 +36,7 @@ require_once 'includes/header.php';
 
 			echo "<input type=\"submit\" class=\"submit\" name=\"action\" value=\"Edit\"> ";
 
-		if (($row['access_lvl'] >= 1) or ($_SESSION['access_lvl'] >= 1)) 
+		if (($row['access_lvl'] >= 1) or ($_SESSION['access_lvl'] > 1)) 
 		{
 			echo "<input type=\"submit\" class=\"submit\" name=\"action\" value=\"$buttonType\"> ";
 		}

@@ -20,9 +20,9 @@ if (isset($_REQUEST['action']))
 						"'," . $_SESSION['user_id'] . ",'" 					.
 						date("Y-m-d H:i:s", time()) . "')";
 
-				echo "DEBUG:: <BR>";
-				echo "DEBUG:: This insert SQL is: $sql <BR>";
-				echo "DEBUG:: Decoded string is: " . urldecode($sql) . "...<BR>" ; 
+				//echo "DEBUG:: <BR>";
+				//echo "DEBUG:: This insert SQL is: $sql <BR>";
+				//echo "DEBUG:: Decoded string is: " . urldecode($sql) . "...<BR>" ; 
 				 mysql_query($sql, $conn)
 					or die('Could not submit article; ' . mysql_error());
 			}
@@ -78,38 +78,43 @@ if (isset($_REQUEST['action']))
 				$isPublished = mysql_query($sql, $conn)
 					or die('Could not publish article; ' . mysql_error());
 
-				/*if ($isPublished)
+				if ($isPublished)
 				{
 					// Retrieve Authors name and email
-					$authorsinfoSQL = 	"SELECT u.name, u.email, a.title " . 
+					$authorsinfoSQL = 	"SELECT u.name, u.email, u.notification,  a.title " . 
 										"FROM cms_users u, cms_articles a " . 
 										"WHERE a.article_id=" . $_POST['article'] . " AND " . 
-										"u.user_id = a.author_id";
+										"u.user_id = a.author_id" . " AND " . 
+										"u.notification = 1";
 
 					$ai_result = mysql_query($authorsinfoSQL, $conn)
 						or die("Could not retrive Authors info for notification...". mysql_error());
+
+					$ai_row = mysql_fetch_array($ai_result);
 
 					if ((mysql_num_rows($ai_result)<1) OR (mysql_num_rows($ai_result)>2))
 					{
 						// Consulta nao retornou nada ou retornou mais de 1 resultado possivel
 						redirect('index.php');
+						//echo "DEBUG:: Deu ZICA!! <BR>";
 
 					} else
 					{
 						// Retornou um valor
 						// Entao notifica o author que o artigo foi publicado
-						$mail_text = "Your article, titled: '" . $ai_result['title'] . "' has been published. Please visit our site to check it out!"
-						$mail_sent = sendmail ("root@localhost", $ai_result['email'], "Your Article has been published", $mail_text);
+						$mail_text = "Your article, titled: '" . $ai_row['title'] . "' has been published. Please visit our site to check it out!";
+						$mail_sent = sendmail ("root@localhost", $ai_row['email'], "Your Article has been published", $mail_text);
 
 						if (!$mail_sent)
 						{
 							// log error and mail the webmaster
-						}
-
-
+							//echo "DEBUG:: Email NOT SENT";
+						} /*else
+						{
+							echo "DEBUG:: Email SENT";
+						}*/
 					}
-				} */
-
+				}
 			}
 			
 			redirect('pending.php');
@@ -166,8 +171,7 @@ if (isset($_REQUEST['action']))
 			redirect('viewarticle.php?article=' . $_POST['article']);
 			
 			break;
-
-		case 'Remove':
+		case 'remove':
 			if 	(isset($_GET['article'])
 				and isset($_SESSION['user_id']))
 			{

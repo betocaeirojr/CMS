@@ -8,7 +8,7 @@
 	<body>
 		<div id="logobar">
 			<div id="logoblob">
-				<h1>Comic Book/Blog Appreciation</h1>
+				<h1>Basic CMS System</h1>
 			</div>
 
 <?php
