@@ -79,9 +79,9 @@ if (isset($_REQUEST['action']))
 							"', PASSWORD('" .  $_POST['passwd'] . "'),'". 
 							$_POST['passwd_hint']. "'," . 
 							$_POST['age'] . ",'" . 
-							$_POST['bio'] . ", " . 
+							$_POST['bio'] . "', " . 
 							$_POST['notify'] . 
-							"')";
+							")";
 				
 				//echo "DEBUG:: $sql <BR>";
 
