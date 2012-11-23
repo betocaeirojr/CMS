@@ -15,8 +15,8 @@ if (isset($_REQUEST['action']))
 			{
 				$sql = 	"INSERT INTO cms_articles " 						.
 						"(title,body, author_id, date_submitted) " 			.
-						"VALUES ('" . $_POST['title']						.
-						"','" . $_POST['body'] 								.
+						"VALUES ('" . htmlspecialchars($_POST['title'],ENT_QUOTES)	.
+						"','" . htmlspecialchars($_POST['body'], ENT_QUOTES)		.
 						"'," . $_SESSION['user_id'] . ",'" 					.
 						date("Y-m-d H:i:s", time()) . "')";
 
@@ -42,10 +42,10 @@ if (isset($_REQUEST['action']))
 				and isset($_POST['body'])
 				and isset($_POST['article']))
 			{
-				$sql = 	"UPDATE cms_articles " .
-						"SET title='" . $_POST['title'] .
-						"', body='" . $_POST['body'] . 
-						"', date_submitted='" . date("Y-m-d H:i:s", time()) . "' " .
+				$sql = 	"UPDATE cms_articles " 											.
+						"SET title='" . htmlspecialchars($_POST['title'], ENT_QUOTES) 	.
+						"', body='" . htmlspecialchars($_POST['body'], ENT_QUOTES) 		. 
+						"', date_submitted='" . date("Y-m-d H:i:s", time()) . "' " 		.
 						"WHERE article_id=" . $_POST['article'];
 
 				if (isset($_POST['authorid'])) 
@@ -90,7 +90,7 @@ if (isset($_REQUEST['action']))
 					$ai_result = mysql_query($authorsinfoSQL, $conn)
 						or die("Could not retrive Authors info for notification...". mysql_error());
 
-					$ai_row = mysql_fetch_array($ai_result);
+					$ai_row = mysql_fetch_assoc($ai_result);
 
 					if ((mysql_num_rows($ai_result)<1) OR (mysql_num_rows($ai_result)>2))
 					{
@@ -102,13 +102,21 @@ if (isset($_REQUEST['action']))
 					{
 						// Retornou um valor
 						// Entao notifica o author que o artigo foi publicado
-						$mail_text = "Your article, titled: '" . $ai_row['title'] . "' has been published. Please visit our site to check it out!";
-						$mail_sent = sendmail ("root@localhost", $ai_row['email'], "Your Article has been published", $mail_text);
+						// DEBUG
+						echo "<PRE>";
+						print_r($ai_row);
+						echo "</PRE>";
+						$email_from = "root@localhost";
+						$email_subject = "Your Article has been published!";
+						$mail_text = "Your article, titled: '" . htmlspecialchars_decode($ai_row['title'], ENT_QUOTES) . "' has been published. Please visit our site to check it out!";
+						
+						//$mail_sent = mail($email_from, $ai_row['email'], $email_subject, $mail_text);
+						$mail_sent = sendmail($email_from, $ai_row['email'], $email_subject, $mail_text);
 
 						if (!$mail_sent)
 						{
 							// log error and mail the webmaster
-							//echo "DEBUG:: Email NOT SENT";
+							echo "DEBUG:: Email NOT SENT";
 						} /*else
 						{
 							echo "DEBUG:: Email SENT";
@@ -162,7 +170,7 @@ if (isset($_REQUEST['action']))
 						"VALUES (" . $_POST['article'] . ",'" 				.
 						date("Y-m-d H:i:s", time()) 						.
 						"'," . $_SESSION['user_id'] 						.
-						",'" . $_POST['comment'] . "')";
+						",'" . htmlspecialchars($_POST['comment'], ENT_QUOTES) . "')";
 				
 				mysql_query($sql, $conn)
 					or die('Could add comment; ' . mysql_error());
@@ -171,7 +179,8 @@ if (isset($_REQUEST['action']))
 			redirect('viewarticle.php?article=' . $_POST['article']);
 			
 			break;
-		case 'remove':
+		
+		case 'Remove':
 			if 	(isset($_GET['article'])
 				and isset($_SESSION['user_id']))
 			{

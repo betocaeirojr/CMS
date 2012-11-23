@@ -44,8 +44,8 @@ function outputStory($article, $only_snippet=FALSE)
 		if ($row = mysql_fetch_array($result)) 
 		{
 			$author = $row['author_id'];
-			echo "<h3>" . htmlspecialchars($row['title']) . "</h3>\n";
-			echo "<h5><div class=\"byline\"><a href=\"aboutauthor.php?author=$author\">By: " . htmlspecialchars($row['name']) . "</a></div>";
+			echo "<h3>" . htmlspecialchars_decode($row['title'], ENT_QUOTES) . "</h3>\n";
+			echo "<h5><div class=\"byline\"><a href=\"aboutauthor.php?author=$author\">By: " . htmlspecialchars_decode($row['name'], ENT_QUOTES) . "</a></div>";
 			echo "<div class=\"pubdate\">";
 
 			if ($row['is_published'] == 1) 
@@ -61,13 +61,13 @@ function outputStory($article, $only_snippet=FALSE)
 			if ($only_snippet) 
 			{
 				echo "<p>\n";
-				echo nl2br(htmlspecialchars(trimBody($row['body'])));
+				echo nl2br(htmlspecialchars_decode(trimBody($row['body']), ENT_QUOTES));
 				echo "</p>\n";
 				echo "<h4><a href=\"viewarticle.php?article=" . $row['article_id'] . "\">Full Story...</a></h4><br>\n";
 			} else 
 			{
 				echo "<p>\n";
-				echo nl2br(htmlspecialchars($row['body']));
+				echo nl2br(htmlspecialchars_decode($row['body'], ENT_QUOTES));
 				echo "</p>\n";
 			}
 		}
@@ -119,7 +119,7 @@ function showComments($article, $showLink=TRUE)
 						"</span><span class=\"commentDate\"> (" .
 						date("l F j, Y H:i", strtotime($row['comment_date'])) .
 						")</span>\n";
-				echo 	"<p class=\"commentText\">\n" . nl2br(htmlspecialchars($row['comment'])) . "\n</p>\n";
+				echo 	"<p class=\"commentText\">\n" . nl2br(htmlspecialchars_decode($row['comment'], ENT_QUOTES)) . "\n</p>\n";
 			}
 			
 			echo "</div>\n";

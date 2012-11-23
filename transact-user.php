@@ -77,9 +77,9 @@ if (isset($_REQUEST['action']))
 						"VALUES ('" . $_POST['email'] . 
 							"','" . $_POST['name'] . 
 							"', PASSWORD('" .  $_POST['passwd'] . "'),'". 
-							$_POST['passwd_hint']. "'," . 
+							htmlspecialchars($_POST['passwd_hint'], ENT_QUOTES). "'," . 
 							$_POST['age'] . ",'" . 
-							$_POST['bio'] . "', " . 
+							htmlspecialchars($_POST['bio'], ENT_QUOTES) . "', " . 
 							$_POST['notify'] . 
 							")";
 				
@@ -120,11 +120,11 @@ if (isset($_REQUEST['action']))
 						"', name='" . $_POST['name'] .
 						"', access_lvl=" . $_POST['accesslvl'] . " , "  .
 						"age = " . $_POST['age'] . "," . 
-						"bio = '" . $_POST['bio'] .  "', " .
+						"bio = '" . htmlspecialchars($_POST['bio'], ENT_QUOTES) .  "', " .
 						"notification = " . $_POST['notify'] .  
 						" WHERE user_id=" . $_POST['userid'];
 				
-				echo "DEBUG:: $sql <BR>";
+				//echo "DEBUG:: $sql <BR>";
 
 				mysql_query($sql, $conn)
 					or die('Could not update user account; ' . mysql_error());
@@ -132,7 +132,7 @@ if (isset($_REQUEST['action']))
 			
 			mysql_free_result($result);
 
-			//redirect('admin.php');
+			redirect('admin.php');
 			
 			break;
 
@@ -177,9 +177,10 @@ if (isset($_REQUEST['action']))
 						"SET email='" . $_POST['email'] .
 						"', name='" . $_POST['name'] . "', " .
 						"age = " . $_POST['age']. "," .
-						"bio = '" . $_POST['bio']. "', " . 
+						"bio = '" . htmlspecialchars($_POST['bio'], ENT_QUOTES) . "', " . 
 						"notification = " . $_POST['notify'] .  
 						" WHERE user_id=" . $_SESSION['user_id'];
+				
 				echo $sql;
 				mysql_query($sql, $conn)
 					or die('Could not update user account; ' . mysql_error());

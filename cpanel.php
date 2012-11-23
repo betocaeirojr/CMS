@@ -22,7 +22,7 @@
 		<input type="text" id="age" name="age" value="<?php echo htmlspecialchars($user['age']); ?>">
 	</p>
 	<p>Bio:<br>
-		<textarea id="age" name="bio" rows="10" cols="60"><?php echo htmlspecialchars($user['bio']); ?> </textarea>
+		<textarea id="age" name="bio" rows="10" cols="60"><?php echo htmlspecialchars_decode($user['bio'], ENT_QUOTES); ?> </textarea>
 	</p>
 	<p>
 		Notify on Post Approval: <br>

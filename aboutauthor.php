@@ -24,7 +24,7 @@ echo "<h4> About the Author </h4>";
 echo "<div>";
 echo "<li> <b>Author's Name: </b> <BR>".  $row['name'] . " </li> <BR>";
 echo "<li> <b>Author's Age : </b> <BR> " . $row['age']  . "</li><BR>";
-echo "<li> <b>Author's Mini Bio : </b> <BR>" . htmlspecialchars($row['bio']) . "</li><BR>";
+echo "<li> <b>Author's Mini Bio : </b> <BR>" . htmlspecialchars_decode($row['bio'], ENT_QUOTES) . "</li><BR>";
 echo "</div>"; 
 
 

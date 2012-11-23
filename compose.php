@@ -30,12 +30,12 @@
 	<h2>Compose Article</h2>
 		<p>
 			Title:<br>
-			<input type="text" class="title" name="title" maxlength="255" value="<?php echo htmlspecialchars($title); ?>">
+			<input type="text" class="title" name="title" maxlength="255" value="<?php echo htmlspecialchars_decode($title,ENT_QUOTES); ?>">
 		</p>
 	
 		<p>
 			Body:<br>
-			<textarea class="body" name="body" rows="10" cols="60"><?php echo htmlspecialchars($body); ?></textarea>
+			<textarea class="body" name="body" rows="10" cols="60"><?php echo htmlspecialchars_decode($body, ENT_QUOTES); ?></textarea>
 		</p>
 	
 		<p>

@@ -49,7 +49,7 @@ foreach ($a_artTypes as $artkey => $artvalue)
 		while ($row = mysql_fetch_array($result)) 
 		{
 			echo ' <a href="reviewarticle.php?article=' . $row['article_id'] . '">' . 
-					htmlspecialchars($row['title']) . "</a> ($artvalue " . date("F j, Y", strtotime($row['date_'.$artvalue])) . ")<br>\n";
+					htmlspecialchars_decode($row['title'], ENT_QUOTES) . "</a> ($artvalue " . date("F j, Y", strtotime($row['date_'.$artvalue])) . ")<br>\n";
 		}
 	}
 	
